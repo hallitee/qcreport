@@ -15,20 +15,27 @@ class CreateQcpassesTable extends Migration
     {
         Schema::create('qcpasses', function (Blueprint $table) {
             $table->increments('id');
+			$table->string('matName');			
 			$table->string('supplier')->nullable();
 			$table->date('prodDate')->nullable();
 			$table->date('expDate')->nullable();
 			$table->date('arrDate')->nullable();	
-			$table->date('samDate')->nullable()					
+			$table->date('samDate')->nullable();	
+			$table->string('coa')->nullable();	
+			$table->string('sku')->nullable();				
 			$table->string('batch')->nullable();
 			$table->string('poNum')->nullable();
 			$table->string('waybill')->nullable();
-			$table->string('quantity')->unsigned();
+			$table->string('quantity')->nullable();
 			$table->string('analysed')->nullable();
-			$table->string('supervised')->unsigned();			
-			$table->string('approved')->unsigned();	
-			$table->string('coa')->unsigned();				
-			
+			$table->string('supervised')->nullable();			
+			$table->string('approved')->nullable();	
+			$table->string('vehNum')->nullable();				
+			$table->string('metric1')->nullable();
+			$table->string('metric2')->nullable();
+			$table->integer('metric3')->nullable();
+			$table->integer('metric4')->nullable();
+			$table->integer('product_id')->unsigned();			
 			$table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');				
             $table->timestamps();
         });
