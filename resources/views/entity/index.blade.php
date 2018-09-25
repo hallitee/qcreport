@@ -25,33 +25,46 @@
 			{!! Form::open(['action' => 'EntityController@store']) !!}
 					<div class="col-lg-8 col-md-8 col-md-offset-2">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Code<span class="asteriskField">*</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Entity Code<span class="asteriskField"></span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('code',"",array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
+						{!! Form::select('entitycode',["01-234-001"=>"ESRNL 001", "01-234-002"=>"NPRNL 002", "01-234-003"=>"PFNL 003" ],'',array('class' => 'input-md form-control', 'id'=>'entitycode', 'required')); !!}
 						</div>	
 					</div>	
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Name<span class="asteriskField">*</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Entity Name<span class="asteriskField">*</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('name',"",array('class' => 'input-md form-control', 'id'=>'username', 'required')); !!}
-						</div>	
-					</div>		
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Location<span class="asteriskField">*</span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('location',['AGBARA'=>'AGBARA','IKEJA'=>'IKEJA','IKOYI'=>'IKOYI'],[],array( 'class' => 'input-md form-control', 'id'=>'company')); !!}
-						</div>	
-					</div>					
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">GM Name<span class="asteriskField">*</span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('GMname',"",array('class' => 'input-md form-control', 'id'=>'email', 'required')); !!}
+						{!! Form::select('name',["ESRNL"=>"ESRNL","NPRNL"=>"NPRNL","PFNL"=>"PFNL"],'',array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
 						</div>	
 					</div>
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">GM Email<span class="asteriskField">*</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Company Full Name<span class="asteriskField"></span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::email('GMemail',"",array('class' => 'input-md form-control', 'id'=>'password', 'required')); !!}
+						{!! Form::text('fName',"",array('class' => 'input-md form-control', 'id'=>'fName', 'required')); !!}
+						</div>	
+					</div>						
+						<div id="div_id_select" class="form-group required">
+						<label for="id_select"  class="control-label col-md-4  requiredField">Location<span class="asteriskField"></span> </label>
+						<div class="controls col-md-5 "  style="margin-bottom: 10px">
+						{!! Form::select('location',['AGBARA'=>'AGBARA','IKEJA'=>'IKEJA','IKOYI'=>'IKOYI'],[],array( 'class' => 'input-md form-control', 'id'=>'location')); !!}
+						</div>	
+					</div>			
+						
+						<div id="div_id_select" class="form-group required">
+						<label for="id_select"  class="control-label col-md-4  requiredField">Company Address<span class="asteriskField"></span> </label>
+						<div class="controls col-md-5 "  style="margin-bottom: 10px">
+						{!! Form::textarea('cAddr',"",array('class' => 'input-md form-control', 'id'=>'cAddr')); !!}
+						</div>	
+					</div>
+						<div id="div_id_select" class="form-group required">
+						<label for="id_select"  class="control-label col-md-4  requiredField">GM Name<span class="asteriskField"></span> </label>
+						<div class="controls col-md-5 "  style="margin-bottom: 10px">
+						{!! Form::text('gmName',"",array('class' => 'input-md form-control', 'id'=>'gmName')); !!}
+						</div>	
+					</div>					
+						<div id="div_id_select" class="form-group required">
+						<label for="id_select"  class="control-label col-md-4  requiredField">GM Email<span class="asteriskField"></span> </label>
+						<div class="controls col-md-5 "  style="margin-bottom: 10px">
+						{!! Form::email('gmEmail',"",array('class' => 'input-md form-control', 'id'=>'gmEmail', 'required')); !!}
 						</div>	
 					</div>	
 								

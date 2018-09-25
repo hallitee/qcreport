@@ -143,6 +143,30 @@
                            
                                 </li>   
                                 <li>
+                                    <a href="#">Entity<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                       <a href="{{ route('entity.create')}}">New Entity</a>
+                                        </li>
+                                        <li>
+										<a href="{{ route('entity.index') }}">Manage Entities</a>
+                                        </li>
+                                    </ul>
+                           
+                                </li>  		
+                                <li>
+                                    <a href="#">Material Group<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                       <a href="{{ route('matgroup.create')}}">New Material</a>
+                                        </li>
+                                        <li>
+										<a href="{{ route('matgroup.index') }}">Manage Materials</a>
+                                        </li>
+                                    </ul>
+                           
+                                </li>								
+                                <li>
                                     <a href="#">Specification<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>

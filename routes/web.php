@@ -25,5 +25,6 @@ Route::resource('user', 'UserController', ['parameters'=>['user'=>'id']]);
 Route::resource('entity', 'EntityController', ['parameters'=>['entity'=>'id']]);
 Route::resource('spec', 'SpecificationController', ['parameters'=>['spec'=>'id']]);
 Route::resource('product', 'ProductController', ['parameters'=>['product'=>'id']]);
+Route::resource('matgroup', 'MatgroupController', ['parameters'=>['matgroup'=>'id']]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('report','DailyreportController');

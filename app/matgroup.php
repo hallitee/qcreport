@@ -10,4 +10,11 @@ class matgroup extends Model
 		public function entity(){
 		return $this->belongsTo(Entity::class);
 		}
+		public function products(){
+		return $this->hasMany('App\product');
+		}		
+		public function measuregrps(){
+		return $this->hasMany('App\measuregrp');
+		}	
+		
 }

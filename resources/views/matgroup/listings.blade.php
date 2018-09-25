@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    @foreach($ent as $l)
+    @foreach($mat as $l)
     <tr>
       <th scope="row">{{ $l->id}}</th>
       <td>{{ $l->entitycode}}</td> 
@@ -33,4 +33,4 @@
     @endforeach
   </tbody>
 </table> <!-- /table -->
-{{ $ent->links() }}
+{{ $mat->links() }}

@@ -12,7 +12,7 @@ class product extends Model
 		return $this->belongsTo(Matgroup::class);
 		}
 		public function measures(){
-		return $this->belongsToMany(Measuregrp::class);
+		return $this->belongsToMany(Measuregrp::class,'specification');
 		}
 		public function qcpasses(){
 		return $this->hasMany(Qcpass::class);

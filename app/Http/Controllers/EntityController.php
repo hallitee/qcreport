@@ -15,6 +15,8 @@ class EntityController extends Controller
     public function index()
     {
         //
+		$ent = entity::paginate(20);
+		return view('entity.list')->with("ent", $ent);
     }
 
     /**
@@ -25,6 +27,7 @@ class EntityController extends Controller
     public function create()
     {
         //
+		return view('entity.index');
     }
 
     /**
@@ -36,6 +39,17 @@ class EntityController extends Controller
     public function store(Request $request)
     {
         //
+		$ent = new entity;
+		$ent->name = $request->name;
+		$ent->fName = $request->fName;
+		$ent->metric1 = $request->location;
+		$ent->entitycode = $request->entitycode;
+		$ent->gmName = $request->gmName;
+		$ent->gmEmail = $request->gmEmail;
+		$ent->cAddress = $request->cAddr;
+		$ent->save();
+		return redirect('entity')->with('status', " Saved successfully ");
+		
     }
 
     /**
@@ -47,6 +61,8 @@ class EntityController extends Controller
     public function show(entity $entity)
     {
         //
+		
+		
     }
 
     /**
@@ -55,9 +71,11 @@ class EntityController extends Controller
      * @param  \App\entity  $entity
      * @return \Illuminate\Http\Response
      */
-    public function edit(entity $entity)
+    public function edit(entity $entity, Request $req)
     {
         //
+		$ent = entity::find($req->id);
+		return view('entity.edit')->with('ent', $ent);
     }
 
     /**
@@ -70,6 +88,16 @@ class EntityController extends Controller
     public function update(Request $request, entity $entity)
     {
         //
+		$ent = entity::find($request->id);
+		$ent->name = $request->name;
+		$ent->fName = $request->fName;
+		$ent->metric1 = $request->location;
+		$ent->entitycode = $request->entitycode;
+		$ent->gmName = $request->gmName;
+		$ent->gmEmail = $request->gmEmail;
+		$ent->cAddress = $request->cAddr;
+		$ent->save();
+		return redirect('entity')->with('status', " Updated successfully ");		
     }
 
     /**
@@ -78,8 +106,11 @@ class EntityController extends Controller
      * @param  \App\entity  $entity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(entity $entity)
+    public function destroy(entity $entity,Request $request)
     {
         //
+		$ent = entity::find($request->id);
+		$ent->delete();
+		return redirect('entity')->with('status', $ent->name." deleted successfully ");
     }
 }

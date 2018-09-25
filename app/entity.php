@@ -9,6 +9,6 @@ class entity extends Model
     //
 	
 		public function matgroups(){
-		return $this->hasMany(Matgroup::class);
+		return $this->hasMany('App\matgroup');
 		}
 }
