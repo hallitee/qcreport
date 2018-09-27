@@ -98,7 +98,7 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-						@if(Auth::check() && Auth::user()->isAdmin())
+						@if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->priv()>0))
 								<li>
 									<a href="{{ url('home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
 								</li>
@@ -162,6 +162,30 @@
                                         </li>
                                         <li>
 										<a href="{{ route('matgroup.index') }}">Manage Materials</a>
+                                        </li>
+                                    </ul>
+                           
+                                </li>	
+                                <li>
+                                    <a href="#">Measure Group<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                       <a href="{{ route('measuregrp.create')}}">New Measure</a>
+                                        </li>
+                                        <li>
+										<a href="{{ route('measuregrp.index') }}">Manage Measure</a>
+                                        </li>
+                                    </ul>
+                           
+                                </li>								
+                                <li>
+                                    <a href="#">Products<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                       <a href="{{ route('product.create')}}">New Material</a>
+                                        </li>
+                                        <li>
+										<a href="{{ route('product.index') }}">Manage Materials</a>
                                         </li>
                                     </ul>
                            

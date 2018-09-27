@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\measuregrp;
 use Illuminate\Http\Request;
+use Auth;
+use App\matgroup;
+
 
 class MeasuregrpController extends Controller
 {
@@ -12,6 +15,23 @@ class MeasuregrpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	 public function loadMat(){
+		 $u =  Auth::user();
+		 $mat= [];
+		 if ($u->priv()>0 || $u->isAdmin()){
+		 $m = matgroup::with('entity')->get();
+		 foreach($m as $a){
+			 $mat[$a->id] = $a->name.' - '.$a->entity->name;
+		 }  
+		 }
+		 else{
+		 $m = matgroup::with('entity')->whereHas('entity', function($query){ return $query->where('name','NPRNL'); })->get();
+		 foreach($m as $a){
+			 $mat[$a->id] = $a->name.' - '.$a->entity->name;
+		 }			 
+		 }
+		 return $mat;
+	 }	 
     public function index()
     {
         //
@@ -24,7 +44,8 @@ class MeasuregrpController extends Controller
      */
     public function create()
     {
-        //
+        $mat = $this->loadMat();
+		return view('measuregrp.index')->with('mat', $mat);
     }
 
     /**

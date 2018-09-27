@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Entity;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class UserController extends Controller
 {
@@ -12,11 +14,28 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	public function comp(){
+		
+		$u = Auth::user();
+		if ($u->priv()>0 || $u->isAdmin()){
+		$comp = ["ESRNL"=>"ESRNL","NPRNL"=>"NPRNL","PFNL"=>"PFNL"];
+		}
+		else{
+			$comp = [$u->company=>$u->company];
+		}
+		return $comp;
+	}
     public function index()
     {
         //
+		$u = Auth::user();
+		if ($u->priv()>0 || $u->isAdmin()){
 		$usr = User::paginate(10);
+		}else{
+			$usr = User::where('company', $u->company)->paginate(10);
+		}
 		return view('user.list')->with('user', $usr);
+		
     }
 
     /**
@@ -27,7 +46,7 @@ class UserController extends Controller
     public function create()
     {
         //
-		$comp = ["ESRNL"=>"ESRNL","NPRNL"=>"NPRNL","PFNL"=>"PFNL"];
+		$comp = $this->comp();
 		return view('user.index')->with(['comp'=>$comp]);
     }
 
@@ -50,6 +69,7 @@ class UserController extends Controller
 		elseif($request->company=='ESRNL'){
 		$usr->entitycode = '01-234-001';
 		}
+		else{ $usr->entitycode = '01-234-003'; }
 		$usr->role = $request->role;
 		$usr->priv = $request->group;
 		$usr->password = bcrypt($request->password);
@@ -67,11 +87,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
-		$comp = [];
-		$e = Entity::all();
-		foreach($e as $a){
-			$comp[$a->id] = $a->name;
-		}
+		$comp = $this->comp();
 		$usr = User::find($id);
 		return view('user.edit')->with(['s'=>$usr, 'comp'=>$comp]);
     }
@@ -85,7 +101,7 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-		$comp = ["ESRNL"=>"ESRNL","NPRNL"=>"NPRNL","PFNL"=>"PFNL"];
+		$comp = $this->comp();
 		$usr = User::find($id);
 		return view('user.edit')->with(['s'=>$usr, 'comp'=>$comp]);
     }

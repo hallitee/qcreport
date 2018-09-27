@@ -16,18 +16,18 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Create New Material Group</h1>
+                    <h1 class="page-header">New Material Group</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
-			{!! Form::open(['action' => 'MatgroupController@store']) !!}
+			{!! Form::open(['action' => 'MeasuregrpController@store']) !!}
 					<div class="col-lg-8 col-md-8 col-md-offset-2">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Select Entity<span class="asteriskField"> *</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Select Material Group<span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('entity',$ent,'',array('class' => 'input-md form-control', 'id'=>'entitycode', 'required')); !!}
+						{!! Form::select('matid',$mat,'',array('class' => 'input-md form-control', 'id'=>'entitycode', 'required')); !!}
 						</div>	
 					</div>	
 						<div id="div_id_select" class="form-group required">

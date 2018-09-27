@@ -61,6 +61,10 @@ class User extends Authenticatable
 		
 		return $this->priv;
 	}
+	public function priv(){
+		
+		return $this->priv;
+	}
 		public function reports(){
 		return $this->hasMany('App\dailyreport');
 		}

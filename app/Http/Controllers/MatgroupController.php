@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\matgroup;
 use App\entity;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class MatgroupController extends Controller
 {
@@ -13,10 +15,26 @@ class MatgroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	 public function entity(){
+		 $u = Auth::user();
+		 $entity = [];
+		 if ($u->priv()>0 || $u->isAdmin()){
+		$ent = entity::get();
+		foreach($ent as $e){
+					$entity[$e->id]=$e->name;	
+		}
+		}
+		else{
+			$ent = entity::where('name', $u->company)->first();
+			$entity[$ent->id] = $ent->name;
+		}
+		return $entity;
+		 
+	 }
     public function index()
     {
         //
-		$mat =  matgroup::paginate(20);
+		$mat =  matgroup::with('entity')->paginate(20);
 		return view('matgroup.list')->with('mat', $mat);
     }
 
@@ -28,12 +46,9 @@ class MatgroupController extends Controller
     public function create()
     {
         //
-		$entity = [];
-		$ent = entity::get();
-		foreach($ent as $e){
-					$entity[$e->id]=$e->name;	
-		}
-		return view('matgroup.index')->with('ent', $entity);
+		
+		$entity =  $this->entity();
+		return view('matgroup.index')->with('mat', $entity);
     }
 
     /**
@@ -73,9 +88,12 @@ class MatgroupController extends Controller
      * @param  \App\matgroup  $matgroup
      * @return \Illuminate\Http\Response
      */
-    public function edit(matgroup $matgroup)
+    public function edit(matgroup $matgroup, Request $request)
     {
         //
+		$entity = $this->entity();
+		$mat = matgroup::with('entity')->find($request->id);
+		return view('matgroup.edit')->with(['mat'=>$mat, 'ent'=>$entity]);
     }
 
     /**
@@ -88,6 +106,15 @@ class MatgroupController extends Controller
     public function update(Request $request, matgroup $matgroup)
     {
         //
+		$mat = matgroup::with('entity')->find($request->id);
+		$mat->name = strtoupper($request->name);
+		$mat->entity_id = $request->entity;
+		$mat->qcSuper = strtoupper($request->qcSuper);
+		$mat->qcSuperEmail = strtolower($request->qcSuperEmail);
+		$mat->qcMan = strtoupper($request->manName);
+		$mat->qcManEmail = strtolower($request->manEmail);
+		$mat->save();
+		return redirect('matgroup')->with('status', $mat->name.' updated successfully ');
     }
 
     /**
@@ -96,8 +123,13 @@ class MatgroupController extends Controller
      * @param  \App\matgroup  $matgroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(matgroup $matgroup)
+    public function destroy(Request $request,matgroup $matgroup)
     {
         //
+		$mat = matgroup::find($request->id);
+		$mat->delete();
+		return redirect('matgroup')->with('status', $mat->name.' updated successfully ');
+		
+		
     }
 }
