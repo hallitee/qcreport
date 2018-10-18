@@ -3,26 +3,24 @@
   <thead>
     <tr>
 	<th scope="col">id</th>
-	
-      <th scope="col">name</th>
-	  <th scope="col">sku</th>
-      <th scope="col">Material group</th>    
+      <th scope="col">Name</th>
+	  <th scope="col">Probes</th>
+      <th scope="col">Mat Group</th>    
       <th scope="col">Edit</th>
       <th scope="col">Delete</th>      
     </tr>
   </thead>
   <tbody>
-    @foreach($prod as $l)
+    @foreach($mg as $l)
     <tr>
-      <th scope="row">{{ $l->id}}</th>
+      <th scope="row">{{ $loop->iteration}}</th>
       <td>{{ $l->name}}</td> 
-      <td>{{ $l->sku }}</td> 	  
+      <td>{{ $l->probes->count() }}</td> 	  
 	    <td>{{ $l->matgroup->name }}</td> 	   
 
-
-      <td><a class="btn btn-sm btn-info" href="{{ route('product.edit', $l->id) }}"><u>Edit</u></a></td>
+      <td><a class="btn btn-sm btn-info" href="{{ route('measuregrp.edit', $l->id) }}"><u>Edit</u></a></td>
       <td>
-        {!! Form::open(['action' => array('ProductController@destroy', $l->id),'method'=>'DELETE']) !!}
+        {!! Form::open(['action' => array('MeasuregrpController@destroy', $l->id),'method'=>'DELETE']) !!}
         <button class="btn btn-sm btn-danger" type="submit"><u>Delete</u></a>
        {!! Form::close() !!}
       </td>         
@@ -30,4 +28,4 @@
     @endforeach
   </tbody>
 </table> <!-- /table -->
-{{ $prod->links() }}
+{{ $mg->links() }}

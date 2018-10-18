@@ -16,70 +16,131 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Update Entity</h1>
+                    <h1 class="page-header text-center">New Test Method</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-																		
             <!-- /.row -->
+			{!! Form::open(['action' => 'MeasuregrpController@store']) !!}
             <div class="row">
-			{!! Form::open(['action'=>array('MatgroupController@update',$mat->id), 'method'=>'PUT']) !!}
-					<div class="col-lg-8 col-md-8 col-md-offset-2">
+			
+					<div class="col-sm-6 col-md-6">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Select Entity<span class="asteriskField"> *</span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('entity',$ent,$mat->entity_id,array('class' => 'input-md form-control', 'id'=>'entitycode', 'readonly')); !!}
+						<label for="id_select"  class="control-label col-md-4  requiredField"> Material Group <span class="asteriskField"> *</span> </label>
+						<div class="controls col-md-8"  style="margin-bottom: 10px">
+						{!! Form::select('matid',$mat,$mg->matgroup->id,array('class' => 'input-md form-control', 'id'=>'matid', 'required','readonly')); !!}
 						</div>	
 					</div>	
+					</div>
+					<div class="col-sm-6 col-md-6">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Material Group Name<span class="asteriskField"> *</span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('name',$mat->name,array('class' => 'input-md form-control', 'id'=>'name')); !!}
+						<label for="id_select"  class="control-label col-md-4 requiredField">Method Name<span class="asteriskField"> *</span> </label>
+						<div class="controls col-md-8"  style="margin-bottom: 10px">
+						{!! Form::text('name',$mg->name,array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
 						</div>	
 					</div>
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Supervisor<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('qcSuper',$mat->qcSuper,array('class' => 'input-md form-control', 'id'=>'qcSuper')); !!}
-						</div>	
-					</div>		
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Supervisor Email<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('qcSuperEmail',$mat->qcSuperEmail,array('class' => 'input-md form-control', 'id'=>'qcSuperEmail')); !!}
-						</div>	
-					</div>						
+												
+				</div>
+            </div>
+			<hr>
+			<h3 class="text-center">Enter Probes </h3>
+			<hr>
+			<div class="row">
+					<div class="row">
+								<div class="col-lg-12" style="margin-top:20px">
+								<table class="table table-bordered table-hover" id="tab_logic">
+				<thead>
+					<tr>
+						<th class="col-xs-1 text-center">
+							S/N
+						</th>
+						<th class="col-xs-2 text-center">
+							Property*
+						</th>
+						<th class="col-xs-1 text-center">
+							Unit*
+						</th>
+						<th class="col-xs-2 text-center">
+							Method*
+						</th>
+						<th class="col-xs-2 text-center">
+							Type*
+						</th>
+						<th class="col-xs-2 text-center">
+							<p>Target text*</p>
+							<i>e.g SHORT/MEDIUM/LONG</i>
+						</th>	
+						<th class="col-xs-1 text-center">
+							Min*
+						</th>
+						<th class="col-xs-1 text-center">
+							Max*
+						</th>	
+						<th class="col-xs-1 text-center">
+							Tolerance +/-
+						</th>							
+					</tr>
+				</thead>
+				<tbody id='tbody'>
+				@foreach($mg->probes as $probe)
+				
+						<script>
+						 i={{$loop->iteration}}; 
+						</script>
+					<tr id='addr{{($loop->iteration-1)}}'>
+						<td class="text-center">
+						{{$loop->iteration}}
+						</td>
+						<td>
+						<input value="{{$probe->prop}}" type="text" name='items[{{ $loop->iteration-1 }}][prop]'  placeholder='Length' class="form-control" required>
+						</td>
+						<td>
+						<input  value='{{ $probe->unit }}' type='text' name='items[{{ $loop->iteration-1 }}][unit]' placeholder='m' class="form-control" required>
+						</td>
+						<td>
+						<input value='{{ $probe->method }}' type="text" name='items[{{ $loop->iteration-1 }}][method]' placeholder='Meter' class="form-control" required>
+						</td>
+						<td>						
+						{!!	Form::select('items['.($loop->iteration-1).'][type]',["FIXED"=>"FIXED","RANGE"=>"RANGE"],$probe->tarType,array('class' => 'form-control', 'required')); !!} 
+						</td>
+						<td>
+						<input value='{{$probe->tarName}}' type="text" name='items[{{ $loop->iteration-1 }}][target]' placeholder='VERY SHORT/SHORT/LONG/VERY LONG' class="form-control" required>
+						</td>
+						<td>
+						<input value='{{ $probe->iLow }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][min]' placeholder='' class="form-control" required>
+						</td>
+						<td>
+						<input value='{{ $probe->iHigh }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][max]' placeholder='' class="form-control" required>
+						</td>		
+						<td>
+						<input value='{{$probe->error }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][tol]' placeholder='' class="form-control">
+						</td>						
+					</tr>
+					@endforeach
+                 
+				</tbody>
+			</table>
+			<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+                    </div>
+						</div>
+					
 
-
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Manager Name<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('manName',$mat->qcMan,array('class' => 'input-md form-control', 'id'=>'gmName')); !!}
-						</div>	
-					</div>					
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Managers Email<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::email('manEmail',$mat->qcManEmail,array('class' => 'input-md form-control', 'id'=>'gmEmail')); !!}
-						</div>	
-					</div>	
-								
+						
+				</div>
+				<div class="row">
+				<div class="col-sm-12>
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField"><span class="asteriskField"></span> </label>
 						<div class="controls col-md-8 "  style="margin-bottom: 10px">
-						{!! link_to('/matgroup', 'Back', ['class' => 'btn btn-danger']) !!}						
-						{!! Form::submit('UPDATE', array('class'=>'btn btn-info')); !!}
+						{!! Form::submit('UPDATE TEST', array('class'=>'btn btn-info')); !!}
 						</div>						
 					</div>
-
-						{!! Form::close() !!}
+				</div>
 				</div>
             </div>
+			
             <!-- /.row -->
-            </div>
-            <!-- /.row -->
-            <!-- /.row -->
-
+			{!! Form::close() !!}
         </div>
         <!-- /#page-wrapper -->
 

@@ -17,7 +17,7 @@ class UserController extends Controller
 	public function comp(){
 		
 		$u = Auth::user();
-		if ($u->priv()>0 || $u->isAdmin()){
+		if ($u->priv()>2 || $u->isAdmin()){
 		$comp = ["ESRNL"=>"ESRNL","NPRNL"=>"NPRNL","PFNL"=>"PFNL"];
 		}
 		else{

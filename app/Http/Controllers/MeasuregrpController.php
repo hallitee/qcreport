@@ -6,6 +6,7 @@ use App\measuregrp;
 use Illuminate\Http\Request;
 use Auth;
 use App\matgroup;
+use App\probe;
 
 
 class MeasuregrpController extends Controller
@@ -15,17 +16,21 @@ class MeasuregrpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	 public function __construct(){
+		 
+		 $this->middleware('auth');	
+	 }
 	 public function loadMat(){
 		 $u =  Auth::user();
 		 $mat= [];
-		 if ($u->priv()>0 || $u->isAdmin()){
+		 if ($u->priv()>2 || $u->isAdmin()){
 		 $m = matgroup::with('entity')->get();
 		 foreach($m as $a){
 			 $mat[$a->id] = $a->name.' - '.$a->entity->name;
 		 }  
 		 }
 		 else{
-		 $m = matgroup::with('entity')->whereHas('entity', function($query){ return $query->where('name','NPRNL'); })->get();
+		 $m = matgroup::with('entity')->whereHas('entity', function($query) use ($u){ return $query->where('name', $u->company); })->get();
 		 foreach($m as $a){
 			 $mat[$a->id] = $a->name.' - '.$a->entity->name;
 		 }			 
@@ -34,7 +39,8 @@ class MeasuregrpController extends Controller
 	 }	 
     public function index()
     {
-        //
+		$mg = measuregrp::with('probes')->paginate(10);
+        return view('measuregrp.list')->with(['mg'=>$mg]);
     }
 
     /**
@@ -54,9 +60,34 @@ class MeasuregrpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
         //
+	
+		$mg = new measuregrp;
+		$mg->mat_id = $req->matid;
+		$mg->name = $req->name;
+		$mg->save();
+		
+	
+	//$items = Input::get('items');
+	$items = $req->input('items');
+	//$item->insert($items);
+	//$doc->item()->saveMany($items);
+	foreach($items as $key => $val){
+			$item = new probe;
+			$item->prop = $val['prop'];
+			$item->unit = $val['unit'];
+			$item->method = $val['method'];
+			$item->tarType = $val['type'];
+			$item->tarName = $val['target'];
+			$item->iLow = $val['min'];
+			$item->iHigh = $val['max'];
+			$item->error = $val['tol'];
+			$item->measuregrps_id = $mg->id;
+			$item->save();
+	} 
+		return redirect('measuregrp')->with('status', 'Created successfully');
     }
 
     /**
@@ -76,9 +107,12 @@ class MeasuregrpController extends Controller
      * @param  \App\measuregrp  $measuregrp
      * @return \Illuminate\Http\Response
      */
-    public function edit(measuregrp $measuregrp)
+    public function edit(Request $req)
     {
         //
+		$mat = $this->loadMat();
+		$mg= measuregrp::with(['matgroup','probes'])->find($req->id);
+		return view('measuregrp.edit')->with(['mg'=>$mg,'mat'=>$mat]);
     }
 
     /**

@@ -57,12 +57,11 @@ class User extends Authenticatable
 		return $this->role;
 	}
 	
-		public function isApprover(){
+	public function isApprover(){
 		
 		return $this->priv;
 	}
 	public function priv(){
-		
 		return $this->priv;
 	}
 		public function reports(){
