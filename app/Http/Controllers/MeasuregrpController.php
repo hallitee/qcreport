@@ -122,9 +122,14 @@ class MeasuregrpController extends Controller
      * @param  \App\measuregrp  $measuregrp
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, measuregrp $measuregrp)
+    public function update(Request $req, measuregrp $measuregrp)
     {
         //
+		$mg= measuregrp::with('probes')->find($req->id);
+		$mg->fill($req->all())->save();
+		$mg->probes->fill($req->all)->save();
+		//$mg->push();
+		return redirect('measuregrp')->with('status', 'Updated successfully');
     }
 
     /**

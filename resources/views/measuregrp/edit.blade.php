@@ -12,7 +12,7 @@
 
 
 @section('body')
-
+		
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -21,7 +21,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-			{!! Form::open(['action' => 'MeasuregrpController@store']) !!}
+ {!! Form::open(['action' => array('MeasuregrpController@update', $mg->id),'method'=>'PUT']) !!}
             <div class="row">
 			
 					<div class="col-sm-6 col-md-6">
@@ -30,6 +30,8 @@
 						<div class="controls col-md-8"  style="margin-bottom: 10px">
 						{!! Form::select('matid',$mat,$mg->matgroup->id,array('class' => 'input-md form-control', 'id'=>'matid', 'required','readonly')); !!}
 						</div>	
+												 <input name="loop" type="number" value="0" id="loop" hidden>
+
 					</div>	
 					</div>
 					<div class="col-sm-6 col-md-6">
@@ -83,10 +85,7 @@
 				</thead>
 				<tbody id='tbody'>
 				@foreach($mg->probes as $probe)
-				
-						<script>
-						 i={{$loop->iteration}}; 
-						</script>
+			
 					<tr id='addr{{($loop->iteration-1)}}'>
 						<td class="text-center">
 						{{$loop->iteration}}
@@ -114,13 +113,17 @@
 						</td>		
 						<td>
 						<input value='{{$probe->error }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][tol]' placeholder='' class="form-control">
-						</td>						
+						</td>			
+								
+						
+									
 					</tr>
+					<input value='{{$loop->iteration-1}}' name='loops' id='loops' hidden>
 					@endforeach
                  
 				</tbody>
 			</table>
-			<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+			<a id="add_rowe" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
                     </div>
 						</div>
 					

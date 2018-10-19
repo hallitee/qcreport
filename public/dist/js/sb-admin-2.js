@@ -9,6 +9,7 @@ $(function() {
 
  $(document).ready(function(){	
  i = 1;
+ change = 0;
  console.log(" qc ready");
  //	$("#finished").hide();
  /*$('#sfgType').on('change', function(e){
@@ -41,7 +42,26 @@ function readURL(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+$("#add_rowe").click(function(){
+
+	if($("#tbody tr").length>1 && change<1){
+		i = $("#tbody tr").length;
+		console.log(" i now "+i);
+		change=10;
+	}
+	
+	$('#tbody').append('<tr id="addr'+(i)+'"></tr>');  
+      $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' required></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
+
+
+    i++; 
+	$('#row_value').val(i);
+	var g = $('#row_value').val();
+
+	console.log(g);
+  });
 $("#add_row").click(function(){
+
       $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' required></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
 
 	$('#tbody').append('<tr id="addr'+(i+1)+'"></tr>');      i++; 
