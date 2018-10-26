@@ -138,8 +138,11 @@ class MeasuregrpController extends Controller
      * @param  \App\measuregrp  $measuregrp
      * @return \Illuminate\Http\Response
      */
-    public function destroy(measuregrp $measuregrp)
+    public function destroy(Request $req)
     {
         //
+		$m = measuregrp::find($req->id);
+		$m->delete();
+		return redirect('measuregrp')->with('status', 'Deleted successfully');
     }
 }

@@ -12,7 +12,7 @@ class measuregrp extends Model
 		return $this->belongsTo(Matgroup::class, 'mat_id');
 		}	
 		public function products(){
-		return $this->belongsToMany(Product::class,'specification');
+		return $this->belongsToMany(Product::class,'specifications');
 		}	
 		public function probes(){
 		return $this->hasMany('App\probe', 'measuregrps_id');

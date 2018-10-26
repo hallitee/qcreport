@@ -23,51 +23,38 @@
 																		
             <!-- /.row -->
             <div class="row">
-			{!! Form::open(['action'=>array('MatgroupController@update',$mat->id), 'method'=>'PUT']) !!}
+			{!! Form::open(['action'=>array('ProductController@update',$prod->id), 'method'=>'PUT']) !!}
 					<div class="col-lg-8 col-md-8 col-md-offset-2">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Select Entity<span class="asteriskField"> *</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Select Material Group <span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('entity',$ent,$mat->entity_id,array('class' => 'input-md form-control', 'id'=>'entitycode', 'readonly')); !!}
+						{!! Form::select('matid',$mat,$prod->mat_id,array('class' => 'input-md form-control', 'id'=>'matgrp', 'required')); !!}
 						</div>	
 					</div>	
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Material Group Name<span class="asteriskField"> *</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Product Name<span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('name',$mat->name,array('class' => 'input-md form-control', 'id'=>'name')); !!}
+						{!! Form::text('name',$prod->name,array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
 						</div>	
 					</div>
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Supervisor<span class="asteriskField"></span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">SKU <span class="asteriskField"></span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('qcSuper',$mat->qcSuper,array('class' => 'input-md form-control', 'id'=>'qcSuper')); !!}
+						{!! Form::text('sku',$prod->sku,array('class' => 'input-md form-control', 'id'=>'qcSuper')); !!}
 						</div>	
 					</div>		
+				
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Supervisor Email<span class="asteriskField"></span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Select Test Methods <span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('qcSuperEmail',$mat->qcSuperEmail,array('class' => 'input-md form-control', 'id'=>'qcSuperEmail')); !!}
+						{!! Form::select('measure[]',$test,$mea,array('class' => 'input-md form-control', 'id'=>'measure', 'required', 'multiple')); !!}
+						<i>Select multiple holding down 'ctrl' key</i>
 						</div>	
-					</div>						
-
-
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Manager Name<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::text('manName',$mat->qcMan,array('class' => 'input-md form-control', 'id'=>'gmName')); !!}
-						</div>	
-					</div>					
-						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Managers Email<span class="asteriskField"></span> </label>
-						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::email('manEmail',$mat->qcManEmail,array('class' => 'input-md form-control', 'id'=>'gmEmail')); !!}
-						</div>	
-					</div>	
-								
+						
+					</div>								
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField"><span class="asteriskField"></span> </label>
 						<div class="controls col-md-8 "  style="margin-bottom: 10px">
-						{!! link_to('/matgroup', 'Back', ['class' => 'btn btn-danger']) !!}						
 						{!! Form::submit('UPDATE', array('class'=>'btn btn-info')); !!}
 						</div>						
 					</div>

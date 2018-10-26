@@ -125,11 +125,13 @@
                                         </li>											
                                     </ul>
               
-                                </li>							
+                                </li>	
+@if(Auth::user()->priv()>=3)								
 							<li>
+							
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Configuration<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-						
+								@if(Auth::user()->priv()>4)
                                 <li>
                                     <a href="#">Users<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -141,7 +143,9 @@
                                         </li>
                                     </ul>
                            
-                                </li>   
+                                </li>  
+									@endif
+									
                                 <li>
                                     <a href="#">Entity<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -158,10 +162,10 @@
                                     <a href="#">Material Group<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                       <a href="{{ route('matgroup.create')}}">New Material</a>
+                                       <a href="{{ route('matgroup.create')}}">New Warehouse</a>
                                         </li>
                                         <li>
-										<a href="{{ route('matgroup.index') }}">Manage Materials</a>
+										<a href="{{ route('matgroup.index') }}">Manage Warehouse</a>
                                         </li>
                                     </ul>
                            
@@ -170,10 +174,10 @@
                                     <a href="#">Measure Group<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                       <a href="{{ route('measuregrp.create')}}">New Measure</a>
+                                       <a href="{{ route('measuregrp.create')}}">New Test</a>
                                         </li>
                                         <li>
-										<a href="{{ route('measuregrp.index') }}">Manage Measure</a>
+										<a href="{{ route('measuregrp.index') }}">Manage Test </a>
                                         </li>
                                     </ul>
                            
@@ -182,29 +186,21 @@
                                     <a href="#">Products<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                       <a href="{{ route('product.create')}}">New Material</a>
+                                       <a href="{{ route('product.create')}}">New Product</a>
                                         </li>
                                         <li>
-										<a href="{{ route('product.index') }}">Manage Materials</a>
+										<a href="{{ route('product.index') }}">Manage Products</a>
                                         </li>
                                     </ul>
                            
-                                </li>								
-                                <li>
-                                    <a href="#">Specification<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                       <a href="{{ route('spec.create')}}">New Specification</a>
-                                        </li>
-                                        <li>
-										<a href="{{ route('spec.index') }}">Manage Specifications</a>
-                                        </li>
-                                    </ul>
-                           
-                                </li>   
+                                </li>
+								
+
 								
 								</ul>
+							
 								</li>
+									@endif
 								@elseif(Auth::check())
 								<li>
 									<a href="{{ url('home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>

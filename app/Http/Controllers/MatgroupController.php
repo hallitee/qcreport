@@ -15,6 +15,9 @@ class MatgroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	 	public function __construct(){
+		 $this->middleware('auth');	
+	}
 	 public function entity(){
 		 $u = Auth::user();
 		 $entity = [];

@@ -30,6 +30,9 @@ else{
 	$("#inprocess").removeClass("col-md-6 col-lg-6").addClass("col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2").show();
 }
 }); */
+$("body").on('change', '#matgrp', function(){
+	
+});
 function readURL(input) {
 
   if (input.files && input.files[0]) {
@@ -46,6 +49,7 @@ $("#add_rowe").click(function(){
 
 	if($("#tbody tr").length>1 && change<1){
 		i = $("#tbody tr").length;
+		if(i==1){ i=1;}
 		console.log(" i now "+i);
 		change=10;
 	}
@@ -70,44 +74,51 @@ $("#add_row").click(function(){
 
 	console.log(g);
   });
-  $("#delete_row").click(function(){
+$("#delete_row").click(function(){
     	 if(i>1){
 		 $("#addr"+(i-1)).html('');
 		 i--;
 		 }
 	 });
+$("body").on('change', '#matgrp', function(){
+	 var optionSelected = $(this).find("option:selected");
+     var val  = optionSelected.val();
+	 console.log(val);
 
- $("body").on('change', '#procs', function(){
-	proc = $(this).val();
-	console.log(proc);
+	
+	//proc = $(this).val();
+	//console.log(proc);
 			$.ajax({
 					type: 'GET',
-					url: "/spec/create",
+					url: "/product/test",
 					dataType: 'JSON',
 					beforeSend: function(xhr)
 					{xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 					data: {
-					"proc":proc,
+					"id":val,
 					},                                                                                             
 					error: function( xhr ){ 
 					// alert("ERROR ON SUBMIT");
 					console.log("error on submit"+xhr);
 					},
-					success: function( data ){ 
+					success: function(data){ 
 					console.log("success "+ data);
-					CList=$("#prods");				
+					CList=$("#measure");				
 					//var datas = JSON.parse(data);
 					CList.empty();
 					$.each(data, function(i, list){
-					   console.log(list.itemname);
-						CList.append(new Option(list.itemname, list.itemname));
+					   console.log(list.name);
+					   console.log(list);
+						CList.append(new Option(list.name, list.id));
 					}); 
 
 					}
 				});
-	console.log($(this).val());
+/*	console.log($(this).val());
 	if(proc=='FG'){$("#fgForm").show(); $("#sfgForm").hide(); }
 	else{$("#sfgForm").show(); $("#fgForm").hide(); }
+  */  
+	
  }); 
 
  });

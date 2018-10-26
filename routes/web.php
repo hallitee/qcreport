@@ -20,6 +20,7 @@ Route::get('report/avg', 'DailyreportController@avg')->middleware('auth')->name(
 Route::get('report/history', 'DailyreportController@report')->middleware('auth')->name("report.history");
 Route::get('report/search', 'DailyreportController@search')->middleware('auth')->name("report.search");
 Route::get('report/start', 'DailyreportController@getprod')->middleware('auth')->name('report.getprod');
+Route::get('product/test', 'ProductController@loadTest')->middleware('auth')->name('product.test');
 Route::resource('report', 'DailyreportController', ['parameters'=>['report'=>'id']]);
 Route::resource('user', 'UserController', ['parameters'=>['user'=>'id']]);
 Route::resource('entity', 'EntityController', ['parameters'=>['entity'=>'id']]);
