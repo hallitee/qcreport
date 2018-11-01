@@ -25,7 +25,7 @@
 			{!! Form::open(['action' => 'MeasuregrpController@store']) !!}
 					<div class="col-lg-8 col-md-8 col-md-offset-2">
 						<div id="div_id_select" class="form-group required">
-						<label for="id_select"  class="control-label col-md-4  requiredField">Select Material Group<span class="asteriskField"> *</span> </label>
+						<label for="id_select"  class="control-label col-md-4  requiredField">Select Entity<span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
 						{!! Form::select('matid',$mat,'',array('class' => 'input-md form-control', 'id'=>'entitycode', 'required')); !!}
 						</div>	

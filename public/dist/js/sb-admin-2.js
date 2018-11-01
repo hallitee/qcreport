@@ -10,6 +10,8 @@ $(function() {
  $(document).ready(function(){	
  i = 1;
  change = 0;
+ var $r = 0;
+ var $error = 0;
  console.log(" qc ready");
  //	$("#finished").hide();
  /*$('#sfgType').on('change', function(e){
@@ -55,7 +57,7 @@ $("#add_rowe").click(function(){
 	}
 	
 	$('#tbody').append('<tr id="addr'+(i)+'"></tr>');  
-      $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' required></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
+      $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control iType'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' readonly></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
 
 
     i++; 
@@ -66,14 +68,66 @@ $("#add_rowe").click(function(){
   });
 $("#add_row").click(function(){
 
-      $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' required></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
+      $('#addr'+i).html("<td class='text-center'>"+(i+1)+"</td><td><input type='text' name='items["+i+"][prop]'  placeholder='' class='form-control' required>	</td><td><input  type='text' name='items["+i+"][unit]' placeholder='' class='form-control' required></td><td><input type='text' name='items["+i+"][method]' placeholder='' class='form-control' required></td><td><select type='text' name='items["+i+"][type]' placeholder='' class='form-control iType'><option value='FIXED'>FIXED</option><option value='RANGE'>RANGE</option></select></td><td><input type='text' name='items["+i+"][target]' placeholder='' class='form-control iTarget' required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][min]' placeholder='' class='form-control' readonly></td><td>		<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='0' max='10000' name='items["+i+"][max]' placeholder='' class='form-control iMax'  required></td><td><input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items["+i+"][tol]' placeholder='' class='form-control'/></td>");
 
 	$('#tbody').append('<tr id="addr'+(i+1)+'"></tr>');      i++; 
 	$('#row_value').val(i);
 	var g = $('#row_value').val();
 
-	console.log(g);
+	//console.log(g);
   });
+  $("body").on('change','.iType', function(){ 
+	type = $(this);
+	val = $(this).find("option:selected").val();
+	var r =  $(this).attr('name');
+	$r = Number(r.split("")[6]);
+	if(val==='FIXED'){
+		$("input[name='items["+$r+"][min]']").attr('readonly', 'true');
+	}
+	else{
+		$("input[name='items["+$r+"][min]']").removeAttr('readonly');
+	}
+  });  
+ $("body").on('focusout', '.iMax', function(){ 
+	function test(res){
+		if(res){
+			target.css({"border":"2px solid red"})
+		}else{ target.removeAttr('style'); }		
+		
+	}
+	var r =  $(this).attr('name');
+	$r = Number(r.split("")[6]);
+	target = $('input[name="items['+$r+'][target]"]');
+	min = $('input[name="items['+$r+'][min]"]');
+	type = $('input[name="items['+$r+'][type]"]').find("option:selected").val();
+	target.css({"border":"2px solid red"});
+	console.log(target);
+	if(target.val().length!==0){
+		tar = target.val().split("/").length;
+		max = $(this).val() - min.val();
+		console.log(" Target Length "+tar+ "  Difference "+max);
+		
+		if(type=='FIXED'){
+			test((tar>2) || (tar==1));
+		}else{
+			test((max%tar!==0) || (tar==1));
+		}
+	}
+	else{
+		target.css({"border":"1px solid  #e32b2b"});
+	}
+  console.log($(this).val()+"  i is "+(i-1));
+  console.log($(this).attr('name') + $r);
+  console.log('Target is '+ target.val());
+  
+ });
+/*$("body").on('focusout', 'input[name="items['+(i-1)+'][max]"]', function(){
+	  console.log(" i "+i);
+	  console.log($(this).val());
+}); */
+ /* $('input[name="items['+(i-1)+'][max]"]').focusout(function(){
+	  console.log($(this).val());
+  });*/
 $("#delete_row").click(function(){
     	 if(i>1){
 		 $("#addr"+(i-1)).html('');

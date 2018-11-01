@@ -114,6 +114,25 @@
                                     </ul>
               
                                 </li>	
+                                <li>								
+                                    <a href="#"><i class="fa fa-exchange fa-fw"></i>QC Pass<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        @if(Auth::user()->priv()==1 || Auth::user()->priv()==5)
+										<li>									
+										<a href="{{route('qcpass.create')}}">Create QC-Pass</a>
+                                        </li>
+                                        <li>									
+										<a href="{{route('qcpass.index')}}">View status</a>
+                                        </li>										
+										@endif
+                                        @if(Auth::user()->priv()==2 || Auth::user()->priv()==5)
+                                        <li>									
+										<a href="{{route('qcpass.index')}}">QC-Pass List</a>
+                                        </li>										
+										@endif										
+                                    </ul>
+              
+                                </li>									
                                 <li>
                                     <a href="#"><i class="fa fa-area-chart fa-fw"></i>Report<span class="fa arrow"></span></a>
                                     <ul class="nav nav-secod-level">
@@ -162,10 +181,10 @@
                                     <a href="#">Material Group<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                       <a href="{{ route('matgroup.create')}}">New Warehouse</a>
+                                       <a href="{{ route('matgroup.create')}}">New Material Group</a>
                                         </li>
                                         <li>
-										<a href="{{ route('matgroup.index') }}">Manage Warehouse</a>
+										<a href="{{ route('matgroup.index') }}">Manage Material Group</a>
                                         </li>
                                     </ul>
                            

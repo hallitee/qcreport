@@ -5,7 +5,7 @@
 	<th scope="col">id</th>
       <th scope="col">Name</th>
 	  <th scope="col">Probes</th>
-      <th scope="col">Mat Group</th>    
+      <th scope="col">Material Group</th>    
       <th scope="col">Edit</th>
       <th scope="col">Delete</th>      
     </tr>

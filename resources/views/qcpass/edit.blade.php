@@ -12,7 +12,7 @@
 
 
 @section('body')
-
+		
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -21,22 +21,24 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-			{!! Form::open(['action' => 'MeasuregrpController@store']) !!}
+ {!! Form::open(['action' => array('MeasuregrpController@update', $mg->id),'method'=>'PUT']) !!}
             <div class="row">
 			
 					<div class="col-sm-6 col-md-6">
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField"> Material Group <span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-8"  style="margin-bottom: 10px">
-						{!! Form::select('matid',$mat,'',array('class' => 'input-md form-control', 'id'=>'entitycode', 'required')); !!}
+						{!! Form::select('matid',$mat,$mg->matgroup->id,array('class' => 'input-md form-control', 'id'=>'matid', 'required','readonly')); !!}
 						</div>	
+												 <input name="loop" type="number" value="0" id="loop" hidden>
+
 					</div>	
 					</div>
 					<div class="col-sm-6 col-md-6">
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4 requiredField">Method Name<span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-8"  style="margin-bottom: 10px">
-						{!! Form::text('name','',array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
+						{!! Form::text('name',$mg->name,array('class' => 'input-md form-control', 'id'=>'name', 'required')); !!}
 						</div>	
 					</div>
 												
@@ -82,42 +84,46 @@
 					</tr>
 				</thead>
 				<tbody id='tbody'>
-					<tr id='addr0'>
+				@foreach($mg->probes as $probe)
+			
+					<tr id='addr{{($loop->iteration-1)}}'>
 						<td class="text-center">
-						1
+						{{$loop->iteration}}
 						</td>
 						<td>
-						<input type="text" name='items[0][prop]'  placeholder='Length' class="form-control" required>
+						<input value="{{$probe->prop}}" type="text" name='items[{{ $loop->iteration-1 }}][prop]'  placeholder='Length' class="form-control" required>
 						</td>
 						<td>
-						<input  type='text' name='items[0][unit]' placeholder='m' class="form-control" required>
+						<input  value='{{ $probe->unit }}' type='text' name='items[{{ $loop->iteration-1 }}][unit]' placeholder='m' class="form-control" required>
 						</td>
 						<td>
-						<input type="text" name='items[0][method]' placeholder='Meter' class="form-control" required>
+						<input value='{{ $probe->method }}' type="text" name='items[{{ $loop->iteration-1 }}][method]' placeholder='Meter' class="form-control" required>
 						</td>
 						<td>						
-						<select type="text" name='items[0][type]' placeholder='' class="form-control iType">
-							  <option value="FIXED">FIXED</option>
-							  <option value="RANGE">RANGE</option>
-						</select>						
+						{!!	Form::select('items['.($loop->iteration-1).'][type]',["FIXED"=>"FIXED","RANGE"=>"RANGE"],$probe->tarType,array('class' => 'form-control', 'required')); !!} 
 						</td>
 						<td>
-						<input type="text" name='items[0][target]' placeholder='VERY SHORT/SHORT/LONG/VERY LONG' class="form-control iTarget" required>
+						<input value='{{$probe->tarName}}' type="text" name='items[{{ $loop->iteration-1 }}][target]' placeholder='VERY SHORT/SHORT/LONG/VERY LONG' class="form-control" required>
 						</td>
 						<td>
-						<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[0][min]' placeholder='' class="form-control" readonly="readonly">
+						<input value='{{ $probe->iLow }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][min]' placeholder='' class="form-control" required>
 						</td>
 						<td>
-						<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[0][max]' placeholder='' class="form-control iMax" required>
+						<input value='{{ $probe->iHigh }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][max]' placeholder='' class="form-control" required>
 						</td>		
 						<td>
-						<input onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[0][tol]' placeholder='' class="form-control">
-						</td>						
+						<input value='{{$probe->error }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][tol]' placeholder='' class="form-control">
+						</td>			
+								
+						
+									
 					</tr>
-                    <tr id='addr1'></tr>
+					<input value='{{$loop->iteration-1}}' name='loops' id='loops' hidden>
+					@endforeach
+                 
 				</tbody>
 			</table>
-			<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+			<a id="add_rowe" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
                     </div>
 						</div>
 					
@@ -129,7 +135,7 @@
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField"><span class="asteriskField"></span> </label>
 						<div class="controls col-md-8 "  style="margin-bottom: 10px">
-						{!! Form::submit('CREATE TEST', array('class'=>'btn btn-info')); !!}
+						{!! Form::submit('UPDATE TEST', array('class'=>'btn btn-info')); !!}
 						</div>						
 					</div>
 				</div>

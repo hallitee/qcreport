@@ -5,7 +5,7 @@
 	<th scope="col">id</th>
 	
       <th scope="col">Name</th>
-	  <th scope="col">Sku</th>
+	  <th scope="col">SKU</th>
 	  <th scope="col">Test</th>
       <th scope="col">Material group</th>    
       <th scope="col">Edit</th>

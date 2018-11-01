@@ -100,13 +100,15 @@
 						<input value='{{ $probe->method }}' type="text" name='items[{{ $loop->iteration-1 }}][method]' placeholder='Meter' class="form-control" required>
 						</td>
 						<td>						
-						{!!	Form::select('items['.($loop->iteration-1).'][type]',["FIXED"=>"FIXED","RANGE"=>"RANGE"],$probe->tarType,array('class' => 'form-control', 'required')); !!} 
+						{!!	Form::select('items['.($loop->iteration-1).'][type]',["FIXED"=>"FIXED","RANGE"=>"RANGE"],$probe->tarType,array('class' => 'form-control iType', 'required')); !!} 
 						</td>
 						<td>
 						<input value='{{$probe->tarName}}' type="text" name='items[{{ $loop->iteration-1 }}][target]' placeholder='VERY SHORT/SHORT/LONG/VERY LONG' class="form-control" required>
 						</td>
 						<td>
-						<input value='{{ $probe->iLow }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][min]' placeholder='' class="form-control" required>
+						<input value='{{ $probe->iLow }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][min]' placeholder='' class="form-control" @if($probe->tarType=='FIXED') {{ 'readonly' }}
+						@endif >
+					
 						</td>
 						<td>
 						<input value='{{ $probe->iHigh }}' onkeypress='return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57' type='number' min='-10000' max='10000' name='items[{{ $loop->iteration-1 }}][max]' placeholder='' class="form-control" required>

@@ -2,7 +2,7 @@
 <table class="table table-responsive table-dark table-bordered">
   <thead>
     <tr>
-	<th scope="col">id</th>
+	<th scope="col">S/N</th>
 	
       <th scope="col">Material</th>
 	  <th scope="col">Entity</th>
@@ -16,7 +16,7 @@
   <tbody>
     @foreach($mat as $l)
     <tr>
-      <th scope="row">{{ $l->id}}</th>
+      <th scope="row">{{ $loop->iteration}}</th>
       <td>{{ $l->name}}</td> 
       <td>{{ $l->entity->name }}</td> 	  
 	    <td>{{ $l->qcSuperEmail}}</td> 	   
