@@ -52,9 +52,9 @@
 	  @if(Auth::user()->priv()<2)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Print</b></button>
 	  @elseif(Auth::user()->priv()>1)
-	   {!! Form::open(['action' => array('QcpassController@analysis', 'id'=>$l->id),'method'=>'POST']) !!}
-	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Analyse</b></button>
-	   {!! Form::close() !!}
+	  
+	  <button value="{{$l->id}}" class="btn btn-md btn-info btnAnal"><b>Analyse</b></button>
+	
 	  @elseif(Auth::user()->priv()>2)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Approve</b></button>		
 	  @endif

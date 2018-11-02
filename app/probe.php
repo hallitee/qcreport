@@ -9,6 +9,6 @@ class probe extends Model
 	protected $fillable = ['prop', 'unit','method', 'target','tarRem', 'tarName', 'tarType','low', 'high', 'iLow', 'iHigh','error'];
     //
 		public function measuregrp(){
-		return $this->belongsTo(Measuregrp::class);
+		return $this->belongsTo(Measuregrp::class, 'measuregrps_id');
 		}
 }

@@ -32,8 +32,117 @@ else{
 	$("#inprocess").removeClass("col-md-6 col-lg-6").addClass("col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2").show();
 }
 }); */
+$("body").on('change', '#matid', function(){
+					prod = $("#product");
+		 				$.ajax({
+					type: 'GET',
+					url: "/get/product",
+					dataType: 'JSON',
+					beforeSend: function(xhr)
+					{xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+					data: {
+					"id": $(this).val(), 				
+					},                                                                                             
+					error: function( xhr ){ 
+					// alert("ERROR ON SUBMIT");
+					//console.log("error on submit"+xhr);
+					},
+					success: function( data ){ 
+					console.log("success "+ data);
+					//var datas = JSON.parse(data);
+					prod.empty();
+					$.each(data, function(i, list){
+						prod.append(new Option(list.name, list.id));
+						//console.log(" i ", i);
+						//console.log(" list ", list.name);
+					});
+					/*
+					Ulist.empty();
+					Ulist.show();
+					$.each(data, function(i, list){
+					if(list.ENTITYCODE=='01-234-001'){
+						$company='ESRNL';
+					}
+					else if(list.ENTITYCODE=='01-234-002'){
+						$company='NPRNL';
+					}
+					else{$company='PFNL';}
+					Ulist.append("<li class='sltList'><a href='#'>"+ list.ITEMCODE + ' - '+list.ITEMNAME +' - ' + $company + "</a></li>")
+					});
+					
+					*/
+					}
+				});
+	
+	
+});
 $("body").on('change', '#matgrp', function(){
 	
+});
+$("body").on('click', '.btnAnal', function(){
+	var btn = $(this).val();
+	console.log(" This button "+ btn);
+      /*  BootstrapDialog.show({
+            title: 'Please specify number of Samples',
+            message: $('<input type="number" min="1" max="10" class="form-control input-sm sample" placeholder="Enter number between 1 - 10..."></input>'),
+            buttons: [{
+                label: 'Start Analysis',
+                cssClass: 'btn-primary',
+                hotkey: 13, // Enter.
+                action: function(res) {
+                    console.log(res);
+					console.log($(".sample").val());
+                }
+            }]
+        });
+        */
+        BootstrapDialog.confirm({
+            title: 'Please specify number of Samples',
+            message:  $('<input type="number" min="1" max="10" class="form-control input-sm sample" placeholder="Enter number between 1 - 10..."></input>'),
+            type: BootstrapDialog.TYPE_PRIMARY, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'Cancel!', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Start Analysis!', // <-- Default value is 'OK',
+           //btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+            callback: function(result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if(result) {
+					var val = $('.sample').val();
+                if($(".sample").val()>10){
+					console.log(" This button "+ btn);
+			BootstrapDialog.show({
+            title: 'Please specify correct number of Samples',
+			type: BootstrapDialog.TYPE_DANGER,
+            message: $('<h5 class="text-danger">Samples can\'t be greater than 10. </h5>'),
+			closable: true,
+			btnCancelLabel: 'Cancel!'
+        });
+				}
+				else{
+					if(val==0){
+			BootstrapDialog.show({
+            title: 'Please specify correct number of Samples',
+			type: BootstrapDialog.TYPE_DANGER,
+            message: $('<h5 class="text-danger">Samples can\'t be less than 1. </h5>'),
+			closable: true,
+			btnCancelLabel: 'Cancel!'
+        });						
+						
+					}
+					else{
+						           //get the analysis page 
+						   
+						window.location = "/pass/start?sample="+val+"&id="+btn;		   
+						
+					}
+					
+				}
+                }else {
+                  
+                }
+            }
+        });		
 });
 function readURL(input) {
 
@@ -99,16 +208,17 @@ $("#add_row").click(function(){
 	$r = Number(r.split("")[6]);
 	target = $('input[name="items['+$r+'][target]"]');
 	min = $('input[name="items['+$r+'][min]"]');
-	type = $('input[name="items['+$r+'][type]"]').find("option:selected").val();
+	type = $('select[name="items['+$r+'][type]"]').find("option:selected").val();
 	target.css({"border":"2px solid red"});
-	console.log(target);
+	//console.log(target);
 	if(target.val().length!==0){
 		tar = target.val().split("/").length;
 		max = $(this).val() - min.val();
-		console.log(" Target Length "+tar+ "  Difference "+max);
+		console.log(" Target Length "+tar+ "  Difference "+max+" Type "+type);
 		
 		if(type=='FIXED'){
-			test((tar>2) || (tar==1));
+			test((tar>3) || (tar==1));
+			console.log("FIXED");
 		}else{
 			test((max%tar!==0) || (tar==1));
 		}
@@ -116,9 +226,9 @@ $("#add_row").click(function(){
 	else{
 		target.css({"border":"1px solid  #e32b2b"});
 	}
-  console.log($(this).val()+"  i is "+(i-1));
-  console.log($(this).attr('name') + $r);
-  console.log('Target is '+ target.val());
+  //console.log($(this).val()+"  i is "+(i-1));
+  //console.log($(this).attr('name') + $r);
+  //console.log('Target is '+ target.val());
   
  });
 /*$("body").on('focusout', 'input[name="items['+(i-1)+'][max]"]', function(){

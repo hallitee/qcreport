@@ -42,8 +42,8 @@ class QcpassController extends Controller
 		return view('qcpass.list')->with(['qc'=>$qc]);
     }
 	public function analysis(Request $req){
-		$pass = qcpass::with('product')->find($req->id);
-		return view('qcpass.analysis')->with(['pass'=>$pass]);
+		$pass = qcpass::with('product.measures.probes')->find($req->id);
+		return view('qcpass.analysis')->with(['pass'=>$pass, 'sample'=>$req->sample]);
 	}
 
     /**

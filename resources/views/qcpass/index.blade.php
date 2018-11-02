@@ -35,7 +35,7 @@
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  col-md-push-2 requiredField">Product Name <span class="asteriskField"> *</span> </label>
 						<div class="controls col-md-8"  style="margin-bottom: 10px">
-						{!! Form::select('product',$prod,'',array('class' => 'input-md form-control', 'id'=>'product', 'required')); !!}
+						{!! Form::select('product',[],'',array('class' => 'input-md form-control', 'id'=>'product', 'required')); !!}
 						</div>	
 					</div>	
 

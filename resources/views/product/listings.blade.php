@@ -19,7 +19,7 @@
       <td>{{ $l->name}}</td> 
       <td>{{ $l->sku }}</td> 	  
 	       <td>@foreach($l->measures as $m)
-		   {{$m->name}}
+		   {{$m->name.' /'}}
 		   @endforeach
 		   </td> 
 	    <td> {{ $l->matgroup->name }}</td> 	   
