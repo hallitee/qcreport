@@ -12,7 +12,17 @@
 
 
 @section('body')
-
+@php
+$samcnt=-1;
+$sample = $pass->metric2;
+if($pass->metric3==40){
+$rd='readonly';	
+$hide = false;
+}else{
+	$rd='';	
+	$hide = true;
+}
+@endphp 
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -21,7 +31,7 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-			{!! Form::open(['action' => 'QcpassController@store']) !!}
+			{!!  Form::open(['action'=>array('QcpassController@update',$pass->id), 'method'=>'PUT'])  !!}
             <div class="row">
 			
 					<div class="col-sm-8 col-md-8 col-sm-push-2">
@@ -53,11 +63,21 @@
 				<th  colspan="{{ ($sample+5) }}">{{ $loop->iteration.'. '}} {{$m->name}} </th>
 				
 				</tr>
-				@foreach($m->probes as $p)
+				@foreach($m->probes as $u=>$p)
+				@php
+				++$samcnt;
+				@endphp
 				<tr>
-				<td>{{$p->prop}}</td><td>{{$p->unit}}</td><td>{{$p->method}}</td><td>{{$p->iHigh}}</td><td><input name="data[coa][{{$p->prop}}][{{$p->id}}]" type="number" class="form-control" ></td>
-				@for($x=1; $x<=$sample; $x++)
-				<td><input type="number" name="data[{{$p->prop}}][{{$p->id}}][{{$x}}]" class="form-control" ></td>
+		
+				<td>{{$p->prop}}</td><td>{{$p->unit}}</td><td>{{$p->method}}</td><td>{{$p->iHigh}}</td><td><input name="data[coa][{{$p->prop}}][{{$p->id}}]" type="number" class="form-control" value="{{ $samp[$samcnt]->coa }}" {{$rd}}></td>			
+			
+			
+				@for($x=1;$x<=$sample; $x++)
+				@php
+				$d="data".$x;				
+				@endphp
+				<td><input type="number"  name="data[{{$p->prop}}][{{$p->id}}][{{strval($x)}}]" class="form-control" value="{{ $samp[$samcnt]->$d }}" {{$rd}}></td>
+				
 				@endfor
 				</tr>
 				@endforeach
@@ -67,24 +87,25 @@
 				</div>
             </div>
 			<hr>
-					<input name="id" value="{{$pass->id}}" id="id" hidden>	
-					<input name="sample" value="{{$sample}}" id="sample" hidden>	
+					
+			<input name="sample" value="{{$sample}}" id="sample" hidden>	
 			<div class="row">
 				<div class="col-sm-12">
 						<div id="div_id_select" class="form-group required">
-
+						@if($hide)
 						<div class="controls col-md-2 col-md-push-4"  style="margin-bottom: 10px">
-						{!! Form::submit('SAVE ANALYSIS', array('class'=>'btn btn-info', 'name'=>'saveButton')); !!}
+						{!! Form::submit('SAVE ANALYSIS', array('class'=>'btn btn-info', 'name'=>'saveButton')) !!}
 						</div>			
 						<div class="controls col-md-2 col-md-push-4"  style="margin-bottom: 10px">
-						{!! Form::submit('SEND FOR APPROVAL', array('class'=>'btn btn-success', 'name'=>'saveButton')); !!}
-						</div>						
-					</div>
-				</div>
-				</div>
+						{!! Form::submit('SEND FOR APPROVAL', array('class'=>'btn btn-success', 'name'=>'saveButton')) !!}
+						</div>		
+						@endif
+					</div>    <!-- /.form-group -->
+				</div>    <!-- /.col-sm-12 -->
+				</div>   <!-- /.row -->
             </div>
 			
-            <!-- /.row -->
+          
 			{!! Form::close() !!}
      
         <!-- /#page-wrapper -->

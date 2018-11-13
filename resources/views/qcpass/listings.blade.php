@@ -29,7 +29,7 @@
 		@if(Auth::user()->priv()<2)
 			@if($l->metric3==50)
 				<button class="btn btn-md btn-warning"><b>AWAITING</b></button>
-				@elseif($l->metric3==40)
+				@elseif($l->metric3>39)
 				<button class="btn btn-md btn-primary"><b>ONGOING</b></button>
 				@elseif($l->metric3==30)
 				<button class="btn btn-md btn-danger"><b>NOT PASSED</b></button>	
@@ -37,9 +37,9 @@
 				<button class="btn btn-md btn-success"><b>PASSED</b></button>		 
 			@endif
 		@elseif(Auth::user()->priv()>1)
-			@if($l->metric3==50)
+			@if($l->metric3>44)
 				<button class="btn btn-md btn-warning"><b>PENDING</b></button>
-				@elseif($l->metric3==40)
+				@elseif($l->metric3>39)
 				<button class="btn btn-md btn-primary"><b>ANALYSED</b></button>
 				@elseif($l->metric3==30)
 				<button class="btn btn-md btn-danger"><b>NOT APPROVED</b></button>	
@@ -52,9 +52,11 @@
 	  @if(Auth::user()->priv()<2)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Print</b></button>
 	  @elseif(Auth::user()->priv()>1)
-	  
+	  @if($l->metric3>45)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info btnAnal"><b>Analyse</b></button>
-	
+	   @else
+	  <a href="{{ route('analyse.edit',['id'=>$l->id])}}"><button value="{{$l->id}}" class="btn btn-md btn-info"><b>Review</b></button></a>
+	   @endif
 	  @elseif(Auth::user()->priv()>2)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Approve</b></button>		
 	  @endif

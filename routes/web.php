@@ -1,6 +1,8 @@
 <?php
 use App\product;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,10 @@ Route::get('get/product', function(Request $r){
 	$p = product::where('mat_id',$r->id)->get();
 	return Response::json($p);
 });
+Route::get('testapprovalemail', function(Request $req){
+	
+})->middleware('auth');
+Route::get('pass/edit', 'QcpassController@analysisedit')->middleware('auth')->name("analyse.edit");
 Route::get('pass/start', 'QcpassController@analysis')->middleware('auth')->name("start.analyse");
 Route::get('report/avg', 'DailyreportController@avg')->middleware('auth')->name("report.history");
 Route::get('report/history', 'DailyreportController@report')->middleware('auth')->name("report.history");

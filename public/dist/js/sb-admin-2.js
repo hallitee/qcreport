@@ -98,7 +98,7 @@ $("body").on('click', '.btnAnal', function(){
         */
         BootstrapDialog.confirm({
             title: 'Please specify number of Samples',
-            message:  $('<input type="number" min="1" max="10" class="form-control input-sm sample" placeholder="Enter number between 1 - 10..."></input>'),
+            message:  $('<input type="number" min="1" step="1" max="10" class="form-control input-sm sample" placeholder="Enter number between 1 - 10..."></input>'),
             type: BootstrapDialog.TYPE_PRIMARY, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
             closable: true, // <-- Default value is false
             draggable: true, // <-- Default value is false
@@ -108,42 +108,26 @@ $("body").on('click', '.btnAnal', function(){
             callback: function(result) {
                 // result will be true if button was click, while it will be false if users close the dialog directly.
                 if(result) {
-					var val = $('.sample').val();
-                if($(".sample").val()>10){
-					console.log(" This button "+ btn);
-			BootstrapDialog.show({
+					var val = Number($('.sample').val());
+					console.log("sample clicked");
+					if(val%1===0  && val<=10 && val>0){
+						window.location = "/pass/start?sample="+val+"&id="+btn;	
+					}
+				else {
+						BootstrapDialog.show({
             title: 'Please specify correct number of Samples',
 			type: BootstrapDialog.TYPE_DANGER,
-            message: $('<h5 class="text-danger">Samples can\'t be greater than 10. </h5>'),
+            message: $('<h5 class="text-danger">Samples shouldn\'t be a fraction and be less than 10</h5>'),
 			closable: true,
 			btnCancelLabel: 'Cancel!'
-        });
-				}
-				else{
-					if(val==0){
-			BootstrapDialog.show({
-            title: 'Please specify correct number of Samples',
-			type: BootstrapDialog.TYPE_DANGER,
-            message: $('<h5 class="text-danger">Samples can\'t be less than 1. </h5>'),
-			closable: true,
-			btnCancelLabel: 'Cancel!'
-        });						
-						
-					}
-					else{
-						           //get the analysis page 
-						   
-						window.location = "/pass/start?sample="+val+"&id="+btn;		   
-						
-					}
-					
-				}
-                }else {
-                  
-                }
+								});	
+					}	
+                } /// if result checks end here
+
             }
         });		
 });
+
 function readURL(input) {
 
   if (input.files && input.files[0]) {
@@ -185,7 +169,7 @@ $("#add_row").click(function(){
 
 	//console.log(g);
   });
-  $("body").on('change','.iType', function(){ 
+$("body").on('change','.iType', function(){ 
 	type = $(this);
 	val = $(this).find("option:selected").val();
 	var r =  $(this).attr('name');
@@ -197,7 +181,7 @@ $("#add_row").click(function(){
 		$("input[name='items["+$r+"][min]']").removeAttr('readonly');
 	}
   });  
- $("body").on('focusout', '.iMax', function(){ 
+$("body").on('focusout', '.iMax', function(){ 
 	function test(res){
 		if(res){
 			target.css({"border":"2px solid red"})

@@ -11,4 +11,7 @@ class probe extends Model
 		public function measuregrp(){
 		return $this->belongsTo(Measuregrp::class, 'measuregrps_id');
 		}
+		public function samples(){
+		return $this->hasMany(Sample::class, 'metric1');	
+		}
 }

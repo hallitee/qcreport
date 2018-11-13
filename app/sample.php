@@ -10,4 +10,7 @@ class sample extends Model
 		public function qcpass(){
 		return $this->belongsTo(Qcpass::class);
 		}
+
+
+		
 }

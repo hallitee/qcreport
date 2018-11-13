@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\qcpass;
 use Illuminate\Http\Request;
 use Auth;
 use App\matgroup;
 use App\product; 
+use App\sample;
+use App\Jobs\sendApprovalEmailJob;
+use App\Mail\approvalEmail;
 
 class QcpassController extends Controller
 {
@@ -43,6 +46,10 @@ class QcpassController extends Controller
     }
 	public function analysis(Request $req){
 		$pass = qcpass::with('product.measures.probes')->find($req->id);
+		$sample=5;
+		if($req->has('sample')){
+			$sample=$req->sample;
+		}
 		return view('qcpass.analysis')->with(['pass'=>$pass, 'sample'=>$req->sample]);
 	}
 
@@ -51,6 +58,12 @@ class QcpassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+	public function analysisedit(Request $req)
+    {
+		$pass = qcpass::with('product.measures.probes')->find($req->id);
+		$samp = sample::where('qcpass_id', $req->id)->get();
+		return view('qcpass.analysisedit')->with(['pass'=>$pass, 'samp'=>$samp]);
+	}
     public function create()
     {
 		$mat = $this->loadMat();
@@ -74,6 +87,43 @@ class QcpassController extends Controller
     public function store(Request $req)
     {
         //
+		$s='';
+
+		if($req->has('sample')){
+		$pass = qcpass::with('product.measures.probes')->find($req->id);
+			foreach($pass->product->measures as $m){
+				foreach($m->probes as $key=>$p){
+					$sam = new sample;
+					$sam->coa = $req->data["coa"][strval($p->prop)][strval($p->id)];
+					$sam->name = "data[".$p->prop."][".$p->id."][".$pass->id."]";
+					for($x=1;$x<=intval($req->sample);$x++){
+						$n = "data".$x;
+					$sam->$n = $req->data[strval($p->prop)][strval($p->id)][strval($x)];
+					}		
+					$sam->metric1 = $p->id;
+					
+					$sam->qcpass_id = $pass->id;	
+					$sam->save();				
+				}
+			}
+			$pass->metric2 = $req->sample;
+			if($req->saveButton=='SAVE ANALYSIS'){
+			$pass->metric3 = 45; //partially save without sending email to QC manager
+			$pass->metric4++;
+			}
+			else{	
+			$pass->metric3 = 40;  //final analysis value and send mail to QC manager
+			$pass->metric4++;
+			$newApprovalJob = (new sendApprovalEmailJob($pass))->delay(Carbon::now()->addMinutes(1));
+			dispatch($newApprovalJob);				
+			}			
+			$pass->save();
+			
+			return redirect('qcpass')->with('status', 'Updated successfully, approver notified');
+
+		//	echo $req->data['coa']['Inner core diameter'];
+			
+		}else{
 		$pass = new qcpass;
 		$pass->matName =  $req->matid;
 		$pass->supplier = strtoupper($req->supplier);
@@ -90,7 +140,9 @@ class QcpassController extends Controller
 		$pass->metric3 = 50;
 		$pass->save();		
 		return redirect('qcpass')->with('status', ' Created successfully ');
+		} 
 		
+
     }
 
     /**
@@ -110,9 +162,12 @@ class QcpassController extends Controller
      * @param  \App\qcpass  $qcpass
      * @return \Illuminate\Http\Response
      */
-    public function edit(qcpass $qcpass)
+    public function edit(Request $req)
     {
         //
+
+
+		
 		
     }
 
@@ -123,9 +178,46 @@ class QcpassController extends Controller
      * @param  \App\qcpass  $qcpass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, qcpass $qcpass)
+    public function update(Request $req)
     {
-        //
+ 
+			$pass = qcpass::with('product.measures.probes')->find($req->id);
+			foreach($pass->product->measures as $m){
+				foreach($m->probes as $key=>$p){
+					$sam = sample::where("name","=", "data[".$p->prop."][".$p->id."][".$pass->id."]")->first();
+					
+					if($sam==null){
+						
+						return redirect('qcpass')->with('status', 'Sample cant be null');
+					}
+					$sam->coa = $req->data['coa'][strval($p->prop)][strval($p->id)];
+					//$sam->name = "data[".$p->prop."][".$p->id."]";
+					for($x=1;$x<=intval($req->sample);$x++){
+						$n = "data".$x;
+					$sam->$n = $req->data[strval($p->prop)][strval($p->id)][strval($x)];
+					}		
+					$sam->metric1 = $p->id;
+					$sam->metric2= $p->name;
+					$sam->qcpass_id = $pass->id;	
+					$sam->save();				
+				}
+			}
+			$pass->metric2 = $req->sample;
+			if($req->saveButton=='SAVE ANALYSIS'){
+			$pass->metric3 = 45; //partially save without sending email to QC manager
+			$pass->metric4++;
+			}
+			else{
+			$pass->metric3 = 40;  //final analysis value and send mail to QC manager
+			$pass->metric4++;
+			$newApprovalJob = (new sendApprovalEmailJob($pass))->delay(Carbon::now()->addMinutes(1));
+			dispatch($newApprovalJob);				
+			}			
+			$pass->save();
+			return redirect('qcpass')->with('status', 'Updated successfully, approver notified');
+			
+	
+		
     }
 
     /**
