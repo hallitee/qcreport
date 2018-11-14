@@ -9,7 +9,7 @@ class qcpass extends Model
     //
 	
 		public function product(){
-		return $this->belongsTo(Product::class)->with('matgroup');
+		return $this->belongsTo(Product::class)->with('matgroup.entity');
 		}
 		public function samples(){
 		return $this->hasMany(Sample::class);

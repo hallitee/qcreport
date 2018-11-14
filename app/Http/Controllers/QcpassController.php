@@ -64,6 +64,13 @@ class QcpassController extends Controller
 		$samp = sample::where('qcpass_id', $req->id)->get();
 		return view('qcpass.analysisedit')->with(['pass'=>$pass, 'samp'=>$samp]);
 	}
+	 
+	public function approval(Request $req)
+    {
+		$pass = qcpass::with('product.measures.probes')->find($req->id);
+		$samp = sample::where('qcpass_id', $req->id)->get();
+		return view('qcpass.approvalanalysis')->with(['pass'=>$pass, 'samp'=>$samp]);
+	}
     public function create()
     {
 		$mat = $this->loadMat();

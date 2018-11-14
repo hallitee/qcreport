@@ -3,6 +3,7 @@
 namespace App\Jobs;
 use App\qcpass;
 use App\Mail\approvalEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,6 +33,6 @@ class sendApprovalEmailJob implements ShouldQueue
     public function handle()
     {
         //
-	Mail::to($this->email)->send(new approverMail($this->pass));		
+	Mail::to($this->pass->product->matgroup->qcSuperEmail)->send(new approvalEmail($this->pass));		
     }
 }

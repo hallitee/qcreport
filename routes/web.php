@@ -2,7 +2,7 @@
 use App\product;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use App\qcpass;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +25,10 @@ Route::get('get/product', function(Request $r){
 	return Response::json($p);
 });
 Route::get('testapprovalemail', function(Request $req){
-	
+	$p = qcpass::with('product.measures')->find(1);
+	return view('email.newApproval')->with(['pass'=>$p]);
 })->middleware('auth');
+Route::get('qcpass/appr', 'QcpassController@approval')->middleware('auth')->name("qcpass.appr");
 Route::get('pass/edit', 'QcpassController@analysisedit')->middleware('auth')->name("analyse.edit");
 Route::get('pass/start', 'QcpassController@analysis')->middleware('auth')->name("start.analyse");
 Route::get('report/avg', 'DailyreportController@avg')->middleware('auth')->name("report.history");

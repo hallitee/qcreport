@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Mail;
-
+use App\qcpass;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -16,9 +16,11 @@ class approvalEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+	 public $pass;
+    public function __construct(qcpass $a)
     {
         //
+		$this->pass = $a;
     }
 
     /**
@@ -28,6 +30,12 @@ class approvalEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+		$address = 'IT.alert.ng@gmail.com';
+		$name = 'QC Pass';
+		$subject = 'New Analysis Approval Notification';
+		//$cemail = $this->pass->product->matgroup->qcSuperEmail;
+        return $this->view('email.newApproval')
+					->from($address, $name)
+					->subject($subject);	
     }
 }
