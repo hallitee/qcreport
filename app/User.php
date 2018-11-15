@@ -52,6 +52,10 @@ class User extends Authenticatable
 			}
         });
     }		
+	public function qcpasses(){
+		
+		return $this->hasMany('App\qcpass','qcpass_id');
+	}
 	public function isAdmin(){
 		
 		return $this->role;

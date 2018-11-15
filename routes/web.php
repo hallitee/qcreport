@@ -28,6 +28,7 @@ Route::get('testapprovalemail', function(Request $req){
 	$p = qcpass::with('product.measures')->find(1);
 	return view('email.newApproval')->with(['pass'=>$p]);
 })->middleware('auth');
+Route::put('qcpass/superappr', 'QcpassController@approveqcpass')->middleware('auth')->name("super.appr");
 Route::get('qcpass/appr', 'QcpassController@approval')->middleware('auth')->name("qcpass.appr");
 Route::get('pass/edit', 'QcpassController@analysisedit')->middleware('auth')->name("analyse.edit");
 Route::get('pass/start', 'QcpassController@analysis')->middleware('auth')->name("start.analyse");

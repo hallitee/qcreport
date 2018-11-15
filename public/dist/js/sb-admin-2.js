@@ -32,6 +32,10 @@ else{
 	$("#inprocess").removeClass("col-md-6 col-lg-6").addClass("col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2").show();
 }
 }); */
+$("body").on('change', 'input[name="dirAppr"]', function(){
+	console.log('selected');
+});
+
 $("body").on('change', '#matid', function(){
 					prod = $("#product");
 		 				$.ajax({

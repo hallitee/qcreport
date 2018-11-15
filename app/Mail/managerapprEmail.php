@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class approvalEmail extends Mailable
+class managerapprEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,10 +32,10 @@ class approvalEmail extends Mailable
     {
 		$address = 'helpdesk@esrnl.com';
 		$name = 'QC Pass';
-		$subject = 'New Analysis Approval Notification';
+		$subject = 'Analysis Acknowledgement Notification';
 		//$cemail = $this->pass->product->matgroup->qcSuperEmail;
         return $this->view('email.newApproval')
 					->from($address, $name)
-					->subject($subject);	
+					->subject($subject);
     }
 }

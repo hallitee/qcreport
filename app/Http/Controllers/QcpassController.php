@@ -9,7 +9,11 @@ use App\matgroup;
 use App\product; 
 use App\sample;
 use App\Jobs\sendApprovalEmailJob;
+use App\Jobs\sendDirectApprovalMail;
+use App\Jobs\sendManagerApprovalMail;
 use App\Mail\approvalEmail;
+use App\Mail\directapprEmail;
+use App\Mail\managerapprEmail;
 
 class QcpassController extends Controller
 {
@@ -143,7 +147,7 @@ class QcpassController extends Controller
 		$pass->quantity = $req->qtySup;
 		$pass->waybill = strtoupper($req->waybill);
 		$pass->vehNum = strtoupper($req->vehicle);
-		$pass->metric1= strtoupper(Auth::user()->name);
+		$pass->analysed= strtoupper(Auth::user()->name);
 		$pass->metric3 = 50;
 		$pass->save();		
 		return redirect('qcpass')->with('status', ' Created successfully ');
@@ -185,6 +189,49 @@ class QcpassController extends Controller
      * @param  \App\qcpass  $qcpass
      * @return \Illuminate\Http\Response
      */
+	 public function approveqcpass(Request $req){
+		 $pass = qcpass::with('product.measures.probes')->find($req->id);
+		if($req->dirAppr=='YES'){ 
+			if($req->subbtn=='QC PASSED'){
+			$pass->supervised = Auth::user()->name;
+			$pass->approved = Auth::user()->name;
+			$pass->metric3 = 30; //partially save without sending email to QC manager
+			$pass->metric4++;					
+			}else{
+			$pass->approved = Auth::user()->name;		
+			$pass->supervised = Auth::user()->name;				
+			$pass->metric3 = 20; //partially save without sending email to QC manager
+			$pass->metric4++;					
+			}
+			$pass->metric1 = 1;
+		 }
+		 else{	
+			if($req->subbtn=='QC PASSED'){
+			$pass->supervised = Auth::user()->name;
+			$pass->metric3 = 35; //partially save without sending email to QC manager
+			$pass->metric4++;			
+			}else{
+		
+			$pass->supervised = Auth::user()->name;				
+			$pass->metric3 = 25; //partially save without sending email to QC manager
+			$pass->metric4++;					
+			}
+			$pass->metric1 = 0;			
+		 }
+		 
+		 $pass->save();
+		 if($req->dirAppr=='YES'){
+			 
+			$newApprovalJob = (new sendDirectApprovalMail($pass))->delay(Carbon::now()->addMinutes(2));
+			dispatch($newApprovalJob);	
+		 }
+		 else{
+			$newApprovalJob = (new sendManagerApprovalMail($pass))->delay(Carbon::now()->addMinutes(2));
+			dispatch($newApprovalJob);				 
+			 
+		 }
+		 
+	 }
     public function update(Request $req)
     {
  

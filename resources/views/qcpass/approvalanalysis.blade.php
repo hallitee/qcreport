@@ -1,15 +1,11 @@
 @extends('layouts.master')
 
 @section('navleft')
-
 @parent
-
 @endsection
 @section('navright')
 @parent
 @endsection
-
-
 
 @section('body')
 @php
@@ -17,13 +13,7 @@ $bad = " #e5bbb9 "; //" #f3dcdb " "#f9b5b5"
 $good =   "#b9e5bd" ;//"#ddf3db" "#bcf5b6"
 $samcnt=-1;
 $sample = $pass->metric2;
-if($pass->metric3==40){
-$rd='readonly';	
-$hide = false;
-}else{
-	$rd='';	
-	$hide = true;
-}
+
 @endphp 
 <div id="page-wrapper">
             <div class="row">
@@ -33,7 +23,7 @@ $hide = false;
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-			{!!  Form::open(['action'=>array('QcpassController@update',$pass->id), 'method'=>'PUT'])  !!}
+			{!!  Form::open(['action'=>array('QcpassController@approveqcpass','id'=>$pass->id), 'method'=>'PUT'])  !!}		
             <div class="row">
 			
 					<div class="col-sm-8 col-md-8 col-sm-push-2">
@@ -142,25 +132,46 @@ $hide = false;
 			<hr>
 					
 			<input name="sample" value="{{$sample}}" id="sample" hidden>	
+			@if($pass->metric3>36)
 			<div class="row">
 				<div class="col-sm-12">
 						<div id="div_id_select" class="form-group required">
-						@if($hide)
+						    <label class="col-md-4 col-md-push-2">
+								<i>Direct Approval in Managers Absence</i>
+    </label>
+    <label class="radio-inline col-md-2 col-md-push-2">
+      <input type="radio" name="dirAppr" value="YES">Yes 
+    </label>
+    <label class="radio-inline col-md-2 col-md-push-2">
+      <input type="radio" name="dirAppr" value="NO" checked>No
+    </label>
+					</div>    <!-- /.form-group -->
+				</div>    <!-- /.col-sm-12 -->
+
+				</div>   <!-- /.row -->			
+				<hr>
+			<div class="row">
+				<div class="col-sm-12">
+						<div id="div_id_select" class="form-group required">
+						
 						<div class="controls col-md-2 col-md-push-4"  style="margin-bottom: 10px">
-						{!! Form::submit('SAVE ANALYSIS', array('class'=>'btn btn-info', 'name'=>'saveButton')) !!}
+						{!! Form::submit('QC PASSED', array('class'=>'btn btn-success', 'name'=>'subbtn')) !!}
 						</div>			
 						<div class="controls col-md-2 col-md-push-4"  style="margin-bottom: 10px">
-						{!! Form::submit('SEND FOR APPROVAL', array('class'=>'btn btn-success', 'name'=>'saveButton')) !!}
+						{!! Form::submit('NOT PASSED', array('class'=>'btn btn-danger', 'name'=>'subbtn')) !!}
 						</div>		
-						@endif
+					
 					</div>    <!-- /.form-group -->
 				</div>    <!-- /.col-sm-12 -->
 				</div>   <!-- /.row -->
+				@endif
             </div>
 			
-          
-			{!! Form::close() !!}
+           <hr>
+			
      
         <!-- /#page-wrapper -->
-
+			<hr>
+			{!! Form::close() !!}
+     
 @endsection
