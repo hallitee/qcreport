@@ -23,7 +23,7 @@
 																		
             <!-- /.row -->
             <div class="row">
-			{!! Form::open(['action'=>array('UserController@update',$s->id), 'method'=>'PUT']) !!}
+			{!! Form::open(['action'=>array('UserController@update','id'=>$s->id), 'method'=>'PUT']) !!}
 					<div class="col-lg-8 col-md-8 col-md-offset-2">
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField">Full Name<span class="asteriskField">*</span> </label>
@@ -58,7 +58,7 @@
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField">Role<span class="asteriskField"></span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('role',['0'=>'ANALYST', '1'=>'ADMIN'],$s->role,array( 'class' => 'input-md form-control', 'id'=>'role')); !!}
+						{!! Form::select('role',['1'=>'Warehouse Admin', '2'=>'QC Analyst', '3'=>'QC Supervisor', '4'=>'QC Manager', '5'=>'Super Admin'],$s->priv,array( 'class' => 'input-md form-control', 'id'=>'role')); !!}
 						</div>	
 					</div>
 						<div id="div_id_select" class="form-group required">

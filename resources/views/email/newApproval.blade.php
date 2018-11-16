@@ -9,7 +9,7 @@ th, td {
     text-align: left;
 }
 </style>
-</style>
+
 <head></head>
 <body>
 This is to notify you that an Analysis has been carried out on the below QCPass for your approval 

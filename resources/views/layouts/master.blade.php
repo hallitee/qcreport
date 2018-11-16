@@ -125,9 +125,9 @@
 										<a href="{{route('qcpass.index')}}">View status</a>
                                         </li>										
 										@endif
-                                        @if(Auth::user()->priv()==2 || Auth::user()->priv()==5)
+                                        @if(Auth::user()->priv()>=2 || Auth::user()->priv()==5)
                                         <li>									
-										<a href="{{route('qcpass.index')}}">QC-Pass List</a>
+										<a href="{{route('qcpass.index')}}">QC-Pass Status</a>
                                         </li>										
 										@endif										
                                     </ul>
@@ -145,7 +145,7 @@
                                     </ul>
               
                                 </li>	
-@if(Auth::user()->priv()>=3)								
+			@if(Auth::user()->priv()>=3)								
 							<li>
 							
                             <a href="#"><i class="fa fa-wrench fa-fw"></i>Configuration<span class="fa arrow"></span></a>

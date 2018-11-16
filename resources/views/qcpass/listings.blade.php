@@ -26,31 +26,44 @@
 	  <td>{{ $l->quantity }}</td> 
 	  <td>{{ $l->metric1 }}</td> 
 	  <td>
-		@if(Auth::user()->priv()<2)
-			@if($l->metric3==50)
+		@if((Auth::user()->priv()==1))
+				@if($l->metric3==50 )
 				<button class="btn btn-md btn-warning"><b>AWAITING</b></button>
-				@elseif($l->metric3>39)
-				<button class="btn btn-md btn-primary"><b>ONGOING</b></button>
-				@elseif($l->metric3==30)
-				<button class="btn btn-md btn-danger"><b>NOT PASSED</b></button>	
-				@elseif($l->metric3==20)
-				<button class="btn btn-md btn-success"><b>PASSED</b></button>		 
+				@elseif(($l->metric3==40) || ($l->metric3==45))
+				<button class="btn btn-md btn-primary"><b>ANALYSING</b></button>
+				@elseif(($l->metric3==30) || ($l->metric3==35))
+				<button class="btn btn-md btn-success"><b>QC PASSED</b></button>	
+				@elseif(($l->metric3==20) || ($l->metric3==25))
+				<button class="btn btn-md btn-danger"><b>QC FAILED</b></button>	
+	 
 			@endif
-		@elseif(Auth::user()->priv()>1)
-			@if($l->metric3>44)
-				<button class="btn btn-md btn-warning"><b>PENDING</b></button>
-				@elseif($l->metric3>39)
-				<button class="btn btn-md btn-primary"><b>ANALYSED</b></button>
-				@elseif($l->metric3==30)
+		@elseif(Auth::user()->priv()==2)
+			@if(($l->metric3==50) || ($l->metric3==45))
+				<button class="btn btn-md btn-warning"><b>PENDING </b></button>
+				@elseif($l->metric3==40)
+				<button class="btn btn-md btn-primary"><b>ANALYSED </b></button>
+				@elseif(($l->metric3==30) || ($l->metric3==35))
+				<button class="btn btn-md btn-success"><b>APPROVED</b></button>		
+				@elseif(($l->metric3==20) || ($l->metric3==25))
 				<button class="btn btn-md btn-danger"><b>NOT APPROVED</b></button>	
-				@elseif($l->metric3==20)
-				<button class="btn btn-md btn-success"><b>APPROVED</b></button>		 
-			@endif		
+			@endif	
+		@elseif(Auth::user()->priv()>2)
+				@if($l->metric3==50)
+				<button class="btn btn-md btn-warning"><b>QC PENDING</b></button>
+				@elseif($l->metric3==45)
+				<button class="btn btn-md btn-primary"><b>ANALYSING </b></button>
+				@elseif($l->metric3==40)
+				<button class="btn btn-md btn-primary"><b>ANALYSED</b></button>				
+				@elseif(($l->metric3==30) || ($l->metric3==35))
+				<button class="btn btn-md btn-danger"><b> QC PASSED </b></button>		
+				@elseif(($l->metric3==20) || ($l->metric3==25))
+				<button class="btn btn-md btn-success"><b>QC FAILED</b></button>					
+				@endif				
 		@endif
 	  </td>
 	  <td>
 	  @if(Auth::user()->priv()<2)
-	  <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Print</b></button>
+	 <a href="{{ route('qcpass.print', ['id'=>$l->id ])}}"> <button value="{{$l->id}}" class="btn btn-md btn-info"><b>Print</b></button></a>
 	  @elseif(Auth::user()->priv()>1)
 	  @if($l->metric3>45)
 	  <button value="{{$l->id}}" class="btn btn-md btn-info btnAnal"><b>Analyse</b></button>

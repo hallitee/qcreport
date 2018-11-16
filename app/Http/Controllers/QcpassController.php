@@ -75,6 +75,13 @@ class QcpassController extends Controller
 		$samp = sample::where('qcpass_id', $req->id)->get();
 		return view('qcpass.approvalanalysis')->with(['pass'=>$pass, 'samp'=>$samp]);
 	}
+		public function printpass(Request $req)
+    {
+		$pass = qcpass::with('product.measures.probes')->find($req->id);
+		$samp = sample::where('qcpass_id', $req->id)->get();
+		return view('qcpass.printout')->with(['pass'=>$pass, 'samp'=>$samp]);
+	//	echo $req;
+	}
     public function create()
     {
 		$mat = $this->loadMat();
@@ -128,6 +135,7 @@ class QcpassController extends Controller
 			$newApprovalJob = (new sendApprovalEmailJob($pass))->delay(Carbon::now()->addMinutes(1));
 			dispatch($newApprovalJob);				
 			}			
+			$pass->analysed = strtoupper(Auth::user()->name);
 			$pass->save();
 			
 			return redirect('qcpass')->with('status', 'Updated successfully, approver notified');
@@ -147,7 +155,7 @@ class QcpassController extends Controller
 		$pass->quantity = $req->qtySup;
 		$pass->waybill = strtoupper($req->waybill);
 		$pass->vehNum = strtoupper($req->vehicle);
-		$pass->analysed= strtoupper(Auth::user()->name);
+		$pass->metric1= strtoupper(Auth::user()->name);
 		$pass->metric3 = 50;
 		$pass->save();		
 		return redirect('qcpass')->with('status', ' Created successfully ');
@@ -193,17 +201,17 @@ class QcpassController extends Controller
 		 $pass = qcpass::with('product.measures.probes')->find($req->id);
 		if($req->dirAppr=='YES'){ 
 			if($req->subbtn=='QC PASSED'){
-			$pass->supervised = Auth::user()->name;
+			$pass->supervised ='DIRECT';
 			$pass->approved = Auth::user()->name;
 			$pass->metric3 = 30; //partially save without sending email to QC manager
 			$pass->metric4++;					
 			}else{
 			$pass->approved = Auth::user()->name;		
-			$pass->supervised = Auth::user()->name;				
+			$pass->supervised ='DIRECT';				
 			$pass->metric3 = 20; //partially save without sending email to QC manager
 			$pass->metric4++;					
 			}
-			$pass->metric1 = 1;
+
 		 }
 		 else{	
 			if($req->subbtn=='QC PASSED'){
@@ -216,7 +224,7 @@ class QcpassController extends Controller
 			$pass->metric3 = 25; //partially save without sending email to QC manager
 			$pass->metric4++;					
 			}
-			$pass->metric1 = 0;			
+	
 		 }
 		 
 		 $pass->save();
@@ -230,6 +238,7 @@ class QcpassController extends Controller
 			dispatch($newApprovalJob);				 
 			 
 		 }
+		 return redirect('qcpass')->with(['status'=>'Analysis updated successfully.']);
 		 
 	 }
     public function update(Request $req)
@@ -266,7 +275,8 @@ class QcpassController extends Controller
 			$pass->metric4++;
 			$newApprovalJob = (new sendApprovalEmailJob($pass))->delay(Carbon::now()->addMinutes(1));
 			dispatch($newApprovalJob);				
-			}			
+			}	
+			$pass->analysed = strtoupper(Auth::user()->name);			
 			$pass->save();
 			return redirect('qcpass')->with('status', 'Updated successfully, approver notified');
 			

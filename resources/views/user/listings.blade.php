@@ -21,12 +21,18 @@
 	    <td>{{ $l->username}}</td> 	   
 	    <td>{{ $l->company}}</td>
 	   <td>{{ $l->email}}</td>		
-	   <td>@if($l->role==1)
-			ADMIN
+	   <td>@if($l->priv==1)
+			Warehouse Admin
+		@elseif($l->priv==2)
+			QC Analyst
+		@elseif($l->priv==3)
+			QC Supervisor
+		@elseif($l->priv==4)
+			QC Manager
 		@else
-			ANALYST
+			ADMIN
 		@endif</td> 
-	   <td>@if($l->priv == 1)
+	   <td>@if($l->role == 1)
 			ALL
 		@else
 			ONLY

@@ -15,13 +15,15 @@
 @php
 $samcnt=-1;
 $sample = $pass->metric2;
-if($pass->metric3==40){
+if($pass->metric3<41){
 $rd='readonly';	
 $hide = false;
 }else{
 	$rd='';	
 	$hide = true;
-}
+}	
+
+
 @endphp 
 <div id="page-wrapper">
             <div class="row">

@@ -73,8 +73,8 @@ class UserController extends Controller
 		$usr->entitycode = '01-234-001';
 		}
 		else{ $usr->entitycode = '01-234-003'; }
-		$usr->role = $request->role;
-		$usr->priv = $request->group;
+		$usr->role = intval($request->group);
+		$usr->priv = intval($request->role);
 		$usr->password = bcrypt($request->password);
 		$usr->save();
 		$user= User::paginate(10);
@@ -118,18 +118,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
 		$usr = User::find($id);
-		if($request->has('name')){
 		$usr->name = $request->name;
-		}
-		if($request->has('username')){
 		$usr->username = $request->username;
-		}
-		if($request->has('email')){
 		$usr->email = $request->email;
-		}
-		if($request->has('company')){
 		$usr->company = $request->company;
 		if($request->company=='NPRNL'){
 		$usr->entitycode = '01-234-002';
@@ -137,20 +130,15 @@ class UserController extends Controller
 		elseif($request->company=='ESRNL'){
 		$usr->entitycode = '01-234-001';
 		}
-		
-		}
-		if($request->has('role')){
-		$usr->role = $request->role;
-		}
-		if($request->has('priv')){
-		$usr->priv = $request->group;
-		}
-		if($request->has('password')){
+		else{ $usr->entitycode = '01-234-003'; }
+		$usr->role = intval($request->group);
+		$usr->priv = intval($request->role);
 		$usr->password = bcrypt($request->password);
-		}
 		$usr->save();	
 		$user= User::paginate(10);		
 		return redirect('user')->with(['status'=>$usr->name.' updated successfully','user'=>$user]);
+		
+		echo $id;
     }
 
     /**

@@ -57,7 +57,7 @@
 						<div id="div_id_select" class="form-group required">
 						<label for="id_select"  class="control-label col-md-4  requiredField">Role<span class="asteriskField"></span> </label>
 						<div class="controls col-md-5 "  style="margin-bottom: 10px">
-						{!! Form::select('role',['0'=>'ANALYST', '1'=>'ADMIN'],0,array( 'class' => 'input-md form-control', 'id'=>'role')); !!}
+						{!! Form::select('role',['1'=>'Warehouse Admin', '2'=>'QC Analyst', '3'=>'QC Supervisor', '4'=>'QC Manager', '5'=>'Super Admin'],0,array( 'class' => 'input-md form-control', 'id'=>'role')); !!}
 						</div>	
 					</div>
 						<div id="div_id_select" class="form-group required">
