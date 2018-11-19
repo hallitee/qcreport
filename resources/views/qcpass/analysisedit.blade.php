@@ -12,12 +12,20 @@
 
 
 @section('body')
+
+
 @php
 $samcnt=-1;
 $sample = $pass->metric2;
+$rd, $hide='';
 if($pass->metric3<41){
+	
+if(intval(Auth::user()->priv())>2){
 $rd='readonly';	
 $hide = false;
+		
+}
+
 }else{
 	$rd='';	
 	$hide = true;
@@ -25,10 +33,11 @@ $hide = false;
 
 
 @endphp 
+
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header text-center">{{ strtoupper($pass->product->matgroup->name )}} ANALYSIS SPECIFICATION / RESULT SHEET</h3>
+                    <h3 class="page-header text-center">{{ strtoupper($pass->product->matgroup->name )}} ANALYSIS SPECIFICATION / RESULT SHEET </h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
